@@ -25,6 +25,7 @@ import loadLanguages from 'prismjs/components/';
  *        Shorthand to set both {@code defaultLanguageForUnknown} and {@code defaultLanguageForUnspecified} to the same value
  */
 const DEFAULTS = {
+	prism: null,
 	plugins: [],
 	init: () => {
 	},
@@ -136,6 +137,11 @@ function checkLanguageOption(options, optionName) {
  */
 export default function markdownItPrism(markdownit, useroptions) {
 	const options = Object.assign({}, DEFAULTS, useroptions);
+
+	// Clobber existing Prism instance with user provided instance
+	if (typeof options.prism === 'object') {
+		Prism = options.prism;
+	}
 
 	checkLanguageOption(options, 'defaultLanguage');
 	checkLanguageOption(options, 'defaultLanguageForUnknown');
